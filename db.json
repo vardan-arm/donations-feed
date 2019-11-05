@@ -1,0 +1,11 @@
+{
+  "donations": [
+    { "id": 1, "title": "donator 1", "amount": "1500", "currency": "$" },
+    { "id": 2, "title": "donator 2", "amount": "800", "currency": "$" },
+    { "id": 3, "title": "donator 3", "amount": "400000", "currency": "AMD" }
+  ],
+  "comments": [
+    { "id": 1, "body": "some comment", "postId": 1 }
+  ],
+  "profile": { "name": "typicode" }
+}

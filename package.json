@@ -1,0 +1,35 @@
+{
+  "name": "donations-feed",
+  "version": "0.0.1",
+  "description": "React app for posting donation info and showing all donations as a news feed",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel public/index.html",
+    "start-mock-server": "json-server --watch db.json",
+    "build": "parcel build public/index.html",
+    "run-built-package": "serve ./dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vardan Hakobyan",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.6.3",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "json-server": "^0.15.1",
+    "parcel-bundler": "^1.12.4",
+    "serve": "^11.2.0",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.5.2",
+    "@material-ui/styles": "^4.5.2",
+    "@reach/router": "1.2.1",
+    "axios": "^0.19.0",
+    "http-proxy-middleware": "^0.20.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "proxy": "http://localhost:3000"
+}
