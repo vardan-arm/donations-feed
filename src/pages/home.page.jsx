@@ -24,6 +24,7 @@ axios.get('/donations')
 let data = [];
 dummyTimeout(1000);
 
+
 data = {
   "donations": [
     { "id": 1, "title": "donator 1", "amount": "1500", "currency": "$" },
