@@ -1,9 +1,9 @@
 import React from "react";
-import {Link} from '@reach/router';
-import axios from 'axios';
-import TopDonorsComponent from '../components/top-donors.component';
-import DonationsComponent from '../components/donations.component';
-import {dummyTimeout} from "../helpers/dummy-timeout";
+import { Link } from "@reach/router";
+import axios from "axios";
+import TopDonorsComponent from "../components/general/top-donors.component";
+import DonationsComponent from "../components/general/donations.component";
+import { dummyTimeout } from "../helpers/dummy-timeout";
 import ListWrapperComponent from "../components/general/list-wrapper.component";
 
 // TODO: replace this with data from API call
@@ -36,8 +36,8 @@ data = {
 const HomePage = () => {
   return (
     <div>
-      <ListWrapperComponent/>
-      <Link to={'/admin'}>Admin</Link>
+      <ListWrapperComponent />
+      <Link to={"/admin"}>Admin</Link>
     </div>
   );
 };

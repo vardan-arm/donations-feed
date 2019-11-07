@@ -1,10 +1,8 @@
-import React from 'react';
+import React from "react";
 import AppComponent from "./app.component";
 
 const RootComponent = () => {
-  return (
-      <AppComponent />
-  );
+  return <AppComponent />;
 };
 
 export default RootComponent;
