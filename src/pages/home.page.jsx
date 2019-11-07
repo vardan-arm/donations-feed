@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "@reach/router";
-import axios from "axios";
-import TopDonorsComponent from "../components/general/top-donors.component";
-import DonationsComponent from "../components/general/donations.component";
-import { dummyTimeout } from "../helpers/dummy-timeout";
-import ListWrapperComponent from "../components/general/list-wrapper.component";
+import { Link } from '@reach/router';
+// import axios from 'axios';
+import React from 'react';
+
+import DonationsComponent from '../components/general/donations.component';
+import MainWrapperComponent from '../components/general/main-wrapper.component';
+import TopDonorsComponent from '../components/general/top-donors.component';
 
 // TODO: replace this with data from API call
 // TODO: move this to another (helper) file
@@ -36,8 +36,11 @@ data = {
 const HomePage = () => {
   return (
     <div>
-      <ListWrapperComponent />
-      <Link to={"/admin"}>Admin</Link>
+      <MainWrapperComponent>
+        <DonationsComponent />
+        <TopDonorsComponent />
+      </MainWrapperComponent>
+      <Link to="/admin">Admin</Link>
     </div>
   );
 };
