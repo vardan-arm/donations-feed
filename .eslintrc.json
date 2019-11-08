@@ -17,6 +17,7 @@
     "max-lines-per-function": ["error", 75],
     "simple-import-sort/sort": "error",
     "sort-imports": "off",
-    "import/order": "warn"
+    "import/order": "warn",
+    "spaced-comment": "off"
   }
 }

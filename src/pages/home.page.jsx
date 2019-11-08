@@ -2,9 +2,8 @@ import { Link } from '@reach/router';
 // import axios from 'axios';
 import React from 'react';
 
-import DonationsComponent from '../components/general/donations.component';
+import ListWrapperComponent from '../components/general/list-wrapper.component';
 import MainWrapperComponent from '../components/general/main-wrapper.component';
-import TopDonorsComponent from '../components/general/top-donors.component';
 
 // TODO: replace this with data from API call
 // TODO: move this to another (helper) file
@@ -38,8 +37,7 @@ const HomePage = () => {
   return (
     <div>
       <MainWrapperComponent>
-        <DonationsComponent />
-        <TopDonorsComponent />
+        <ListWrapperComponent />
       </MainWrapperComponent>
       <Link to="/admin">Admin</Link>
     </div>

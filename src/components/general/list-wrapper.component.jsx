@@ -1,35 +1,74 @@
-// TODO: get real data from backend
-import Container from '@material-ui/core/Container';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import { node } from 'prop-types';
-import React, { useContext } from 'react';
+import '../../styles/custom-styles.css';
 
-import { DonationsListContext } from './main-wrapper.component';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import React from 'react';
+
+import DonationsComponent from './donations.component';
+import TopDonorsComponent from './top-donors.component';
 
 const useStyles = makeStyles({
   root: {
-    height: 'calc(100vh - 40px)',
+    position: 'relative',
+    height: 'calc(100vh - 55px)',
     overflow: 'hidden',
+  },
+  wrapperWithMovingContents: {
+    // position: 'absolute',
+    /*'-webkitAnimation': 'mover 1s infinite  alternate',
+    animation: 'mover 1s infinite  alternate',*/
+    /*'::@-webkit-keyframes mover': `
+      {0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }`,
+
+    '::@keyframes mover': `
+      {0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }`,*/
+    /*'@-webkit-keyframes mover': {
+      '0%': {
+        transform: 'translateY(0)',
+      },
+      '100%': {
+        transform: 'translateY(-10px)',
+      },
+    },
+    '@keyframes mover': {
+      '0%': {
+        transform: 'translateY(0)',
+      },
+      '100%': {
+        transform: 'translateY(-10px)',
+      },
+    },*/
+    /*'@-webkit-keyframes mover': `{
+      '0%': {
+        transform: 'translateY(0)',
+      },
+      '100%': {
+        transform: 'translateY(-10px)',
+      },
+    }`,*/
+    /*'::@keyframes mover': {
+      '0%': {
+        transform: 'translateY(0)',
+      },
+      '100%': {
+        transform: 'translateY(-10px)',
+      },
+    },*/
   },
 });
 
-const ListWrapperComponent = ({ children }) => {
+const ListWrapperComponent = () => {
   const classes = useStyles();
 
-  const donationsList = useContext(DonationsListContext);
-
-  if (donationsList.length === 0) {
-    return null;
-  }
-
-  return <Container className={classes.root}>{children}</Container>;
-};
-
-ListWrapperComponent.propTypes = {
-  children: node,
-};
-ListWrapperComponent.defaultProps = {
-  children: null,
+  return (
+    <div className={classes.root}>
+      <div className="wrapper-with-moving-contents">
+        <DonationsComponent />
+        <TopDonorsComponent />
+      </div>
+    </div>
+  );
 };
 
 export default ListWrapperComponent;
