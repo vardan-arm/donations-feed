@@ -1,6 +1,7 @@
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+// import React, { useContext, useEffect } from 'react';
 import React, { useContext } from 'react';
 
 import { DonationsListContext } from './main-wrapper.component';
@@ -15,7 +16,12 @@ const useStyles = makeStyles(theme => ({
 const ListRendererComponent = () => {
   const classes = useStyles();
 
-  const donationsList = useContext(DonationsListContext);
+  // const donationsList = useContext(DonationsListContext);
+  const { donationsList } = useContext(DonationsListContext);
+
+  // useEffect(() => {
+  //  // set isScrolling here?
+  // }, [donationsList]);
 
   // return itemsList.map(item => {
   return donationsList.map(item => {
