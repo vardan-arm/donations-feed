@@ -13,6 +13,20 @@ const useStyles = makeStyles({
     height: 'calc(100vh - 55px)',
     overflow: 'hidden',
   },
+  wrapperWithMovingContents: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    animation: 'mover 5s infinite linear',
+  },
+  '@keyframes mover': {
+    '0%': {
+      top: 0,
+    },
+    '100%': {
+      top: '-200%',
+    },
+  },
 });
 
 const ListWrapperComponent = () => {
@@ -21,11 +35,15 @@ const ListWrapperComponent = () => {
 
   return (
     <div className={classes.root}>
-      {/*<div className="wrapper-with-moving-contents">*/}
       {/*<div className="wrapper-with-moving-contents" id="list-wrapper-component">*/}
-      <div
+      {/*<div className="wrapper-with-moving-contents">*/}
+      {/*<div
         id="list-wrapper-component"
         className={isScrolling ? 'wrapper-with-moving-contents' : ''}
+      >*/}
+      <div
+        id="list-wrapper-component"
+        className={isScrolling ? classes.wrapperWithMovingContents : ''}
       >
         <DonationsComponent />
         <TopDonorsComponent />
