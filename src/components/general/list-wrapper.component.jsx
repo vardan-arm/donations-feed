@@ -1,10 +1,10 @@
-import '../../styles/custom-styles.css';
+// import '../../styles/custom-styles.css';
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import React, { useContext } from 'react';
+import React from 'react';
 
 import DonationsComponent from './donations-list/donations.component';
-import { DonationsListContext } from './main-wrapper.component';
+// import { DonationsListContext } from './main-wrapper.component';
 import TopDonorsComponent from './top-donors.component';
 
 const useStyles = makeStyles({
@@ -13,39 +13,21 @@ const useStyles = makeStyles({
     height: 'calc(100vh - 55px)',
     overflow: 'hidden',
   },
-  wrapperWithMovingContents: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    animation: 'mover 5s infinite linear',
-  },
-  '@keyframes mover': {
-    '0%': {
-      top: 0,
-    },
-    '100%': {
-      top: '-200%',
-    },
-  },
 });
 
 const ListWrapperComponent = () => {
   const classes = useStyles();
-  const { isScrolling } = useContext(DonationsListContext);
+  // const { isScrolling } = useContext(DonationsListContext);
 
   return (
     <div className={classes.root}>
-      {/*<div className="wrapper-with-moving-contents" id="list-wrapper-component">*/}
-      {/*<div className="wrapper-with-moving-contents">*/}
       {/*<div
         id="list-wrapper-component"
-        className={isScrolling ? 'wrapper-with-moving-contents' : ''}
-      >*/}
-      <div
-        id="list-wrapper-component"
+        style={{ border: '1px solid' }}
         className={isScrolling ? classes.wrapperWithMovingContents : ''}
-      >
-        <DonationsComponent />
+      >*/}
+      <div>
+        <DonationsComponent topPosition={100} />
         <TopDonorsComponent />
       </div>
     </div>
