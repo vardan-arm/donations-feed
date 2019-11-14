@@ -1,9 +1,9 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-// import React from 'react';
+import { getIsScrollingSelector } from '../../../store/reducers/scroll.reducer';
 import ListRendererComponent from '../list-renderer-component';
-import { DonationsListContext } from '../main-wrapper.component';
 import DonationsTemporaryComponent from './donations-temporary-component';
 import SeparatorComponent from './separator-component';
 
@@ -34,7 +34,8 @@ const DonationsComponent = props => {
   const classes = useStyles(props);
   // console.log('props', props);
 
-  const { isScrolling } = useContext(DonationsListContext);
+  // const { isScrolling } = useContext(DonationsListContext);
+  const isScrolling = useSelector(getIsScrollingSelector);
 
   // const componentMover = useCallback(timestamp => {
   const componentMover = useCallback(() => {

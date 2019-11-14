@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
+import { getDonationsListSelector } from '../../../store/reducers/donations.reducer';
 import DonationsRendererComponent from '../../helper-components/donations-renderer-component';
-import { DonationsListContext } from '../main-wrapper.component';
 
 const DonationsTemporaryComponent = () => {
-  const { donationsList } = useContext(DonationsListContext);
+  // const { donationsList } = useContext(DonationsListContext);
+  const donationsList = useSelector(getDonationsListSelector);
 
   /*useEffect(() => {
     // TOOD: find a better way not to get element by ID (refs ?)

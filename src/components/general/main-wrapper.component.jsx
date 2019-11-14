@@ -1,38 +1,21 @@
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 // import makeStyles from '@material-ui/core/styles/makeStyles';
-import { node } from 'prop-types';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import dummyTimeout from '../../helpers/dummy-timeout';
-
-export const DonationsListContext = createContext([]);
-
-/*const useStyles = makeStyles({
-  moving: {
-    animation: '$mover 5s infinite linear',
-  },
-  '@keyframes mover': {
-    '0%': {
-      top: 0,
-    },
-    '100%': {
-      // Some big number to have kind of infinite motion; the motion will be stopped when SeparatorComponent reaches to the screen's top edge
-      top: '-1000px',
-    },
-  },
-});*/
+import { addNewDonationAction } from '../../store/actions/donations.actions';
+import { setIsScrollingAction } from '../../store/actions/scroll.actions';
+import ListWrapperComponent from './list-wrapper.component';
 
 // eslint-disable-next-line max-lines-per-function
-const MainWrapperComponent = ({ children }) => {
-  // const classes = useStyles();
-
-  const [donationsList, setDonationsList] = useState([]);
-  const [isScrolling, setIsScrolling] = useState(false);
+const MainWrapperComponent = () => {
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dummyTimeout(1000).then(() => {
-      setDonationsList([
+      const donations = [
         { id: 1, title: 'donator 1', amount: '1500', currency: '$' },
         { id: 2, title: 'donator 2', amount: '800', currency: '$' },
         // { id: 3, title: 'donator 3', amount: '400000', currency: 'AMD' },
@@ -58,12 +41,15 @@ const MainWrapperComponent = ({ children }) => {
         // { id: 22, title: 'donator 22', amount: '1500', currency: '$' },
         // { id: 23, title: 'donator 23', amount: '800', currency: '$' },
         // { id: 24, title: 'donator 24', amount: '400000', currency: 'AMD' },
-      ]);
+      ];
+      // TODO: this loop is only for development purposes and later it will be deleted, as in reality there will be no existing donations initially
+      donations.forEach(donationItem =>
+        dispatch(addNewDonationAction(donationItem)),
+      );
     });
-  }, []);
+  }, [dispatch]);
 
   const LIST_ITEM_HEIGHT = 80; // TODO: perhaps this will be calculated, do that later
-  // let reqId;
 
   /*const mover = timestamp => {
     console.log('timestamp', timestamp);
@@ -83,13 +69,18 @@ const MainWrapperComponent = ({ children }) => {
     }
   };*/
 
-  useEffect(() => {}, [isScrolling]);
+  // useEffect(() => {}, [isScrolling]);
 
   const setScrollingState = startScroll => {
-    if (startScroll === true) {
-      setIsScrolling(true);
+    /*if (startScroll === true) {
+      // setIsScrolling(true);
+      dispatch(setIsScrollingAction(true));
     } else if (startScroll === false) {
-      setIsScrolling(false);
+      // setIsScrolling(false);
+      dispatch(setIsScrollingAction(false));
+    }*/
+    if (typeof startScroll === 'boolean') {
+      dispatch(setIsScrollingAction(startScroll));
     } else {
       // TOOD: find a better way not to get element by ID (refs ?)
       const containerElement = document.getElementById(
@@ -104,7 +95,9 @@ const MainWrapperComponent = ({ children }) => {
 
       if (containerPartThatIsBelowOfVisibleScreen > LIST_ITEM_HEIGHT) {
         // if (true) {
-        setIsScrolling(true);
+        // setIsScrolling(true);
+        dispatch(setIsScrollingAction(true));
+
         // containerElement.style.animation = 'mover 5s infinite linear';
 
         // reqId = requestAnimationFrame(mover);
@@ -124,33 +117,29 @@ const MainWrapperComponent = ({ children }) => {
   const addData = () => {
     // data.push();
     // console.log('here');
-    const nextItemId = donationsList.length + 1;
-    setDonationsList([
-      ...donationsList,
-      {
+    // const nextItemId = donationsList.length + 1;
+    const nextItemId = (Math.random() * 1000).toFixed();
+    dispatch(
+      addNewDonationAction({
         id: nextItemId,
         title: `donator ${nextItemId}`,
         amount: (Math.random() * 1000).toFixed(),
         currency: '$',
-      },
-    ]);
-
+      }),
+    );
     setScrollingState();
   };
 
+  /*
   const removeData = () => {
-    // const LIST_ITEM_HEIGHT = 80; // TODO: perhaps this will be calculated, do that later
-    /*const containerElement = document.getElementById('list-wrapper-component');
-    const currentMarginTop =
-      parseInt(containerElement.style.marginTop, 10) || 0;*/
-
     setDonationsList(donationsList.slice(1));
 
     // Move container up by the height of removed element
-    /*containerElement.style.marginTop = `${currentMarginTop +
-      LIST_ITEM_HEIGHT}px`;*/
+    /!*containerElement.style.marginTop = `${currentMarginTop +
+      LIST_ITEM_HEIGHT}px`;*!/
     setScrollingState();
   };
+*/
 
   return (
     <Grid
@@ -165,30 +154,23 @@ const MainWrapperComponent = ({ children }) => {
         <Button variant="contained" onClick={addData}>
           Add new record
         </Button>
-        <Button variant="contained" onClick={removeData}>
+        {/*<Button variant="contained" onClick={removeData}>
           Remove first record
-        </Button>
+        </Button>*/}
       </Grid>
       <Grid item xs={6} component="div">
-        <DonationsListContext.Provider
+        {/*<DonationsListContext.Provider
           value={{
             donationsList,
-            isScrolling,
+            // isScrolling,
           }}
         >
-          {/*<DonationsListContext.Provider value={donationsList}>*/}
           {children}
-        </DonationsListContext.Provider>
+        </DonationsListContext.Provider>*/}
+        <ListWrapperComponent />
       </Grid>
     </Grid>
   );
-};
-
-MainWrapperComponent.propTypes = {
-  children: node,
-};
-MainWrapperComponent.defaultProps = {
-  children: null,
 };
 
 export default MainWrapperComponent;
