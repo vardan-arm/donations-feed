@@ -1,6 +1,5 @@
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-// import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -60,44 +59,16 @@ const MainWrapperComponent = () => {
 
   const LIST_ITEM_HEIGHT = 80; // TODO: perhaps this will be calculated, do that later
 
-  /*const mover = timestamp => {
-    console.log('timestamp', timestamp);
-    const containerElement = document.getElementById('list-wrapper-component');
-
-    // setIsScrolling(true);
-
-    // TODO: not so "Reacty" approach, find a better way in future
-    // Add required class name to donations container to start motion
-    containerElement.classList.add('moving');
-
-    console.log('is scorlling?', isScrolling);
-    // TODO: condition to stop!!!
-    if (isScrolling) {
-      console.log('here, endless...');
-      requestAnimationFrame(mover);
-    }
-  };*/
-
-  // useEffect(() => {}, [isScrolling]);
-
   const setScrollingState = startScroll => {
-    /*if (startScroll === true) {
-      // setIsScrolling(true);
-      dispatch(setIsScrollingAction(true));
-    } else if (startScroll === false) {
-      // setIsScrolling(false);
-      dispatch(setIsScrollingAction(false));
-    }*/
+    // TODO: find a better way not to get element by ID (ref ?)
+    const containerElement = document.getElementById('list-wrapper-component');
+    const containerSizes = containerElement.getBoundingClientRect();
+
     if (typeof startScroll === 'boolean') {
       dispatch(setIsScrollingAction(startScroll));
 
-      // TODO: this is for testing purposes, rmove later
+      // TODO: this is for testing purposes, remove later
       if (startScroll === false) {
-        // TODO: find a better way not to get element by ID (ref ?)
-        const containerElement = document.getElementById(
-          'list-wrapper-component',
-        );
-        const containerSizes = containerElement.getBoundingClientRect();
         const containerTopPosition = containerSizes.top;
 
         dispatch(
@@ -105,47 +76,23 @@ const MainWrapperComponent = () => {
         );
       }
     } else {
-      // autostart scrolling if the added records are not shown anymore
-      // TOOD: find a better way not to get element by ID (refs ?)
-      const containerElement = document.getElementById(
-        'list-wrapper-component',
-      );
-
-      const containerSizes = containerElement.getBoundingClientRect();
+      // Automatically start scrolling if the newly added records are not shown anymore
       const containerBottomPosition =
         containerSizes.top + containerSizes.height;
       const containerPartThatIsBelowOfVisibleScreen =
         containerBottomPosition - document.body.scrollHeight;
 
       if (containerPartThatIsBelowOfVisibleScreen > LIST_ITEM_HEIGHT) {
-        // if (true) {
-        // setIsScrolling(true);
-
-        // TOOD: in all places where we have more than one `dispatch` in components, use thunks
+        // TODO: in all places where we have more than one `dispatch` in components, use thunks
         dispatch(setIsScrollingAction(true));
         dispatch(setIsTempDonationsContainerVisible(true));
-
-        // containerElement.style.animation = 'mover 5s infinite linear';
-
-        // reqId = requestAnimationFrame(mover);
-
-        // requestAnimationFrame(mover);
-      } /*else {
-        /!*console.log(
-          "don't start scroll yet",
-          containerPartThatIsBelowOfVisibleScreen,
-        );*!/
-        window.isScrolling = false;
-        containerElement.style.animation = '';
-      }*/
+      }
     }
   };
 
   const addData = () => {
-    // data.push();
-    // console.log('here');
-    // const nextItemId = donationsList.length + 1;
     const nextItemId = (Math.random() * 1000).toFixed();
+
     dispatch(
       addNewDonationAction({
         id: nextItemId,
@@ -156,17 +103,6 @@ const MainWrapperComponent = () => {
     );
     setScrollingState();
   };
-
-  /*
-  const removeData = () => {
-    setDonationsList(donationsList.slice(1));
-
-    // Move container up by the height of removed element
-    /!*containerElement.style.marginTop = `${currentMarginTop +
-      LIST_ITEM_HEIGHT}px`;*!/
-    setScrollingState();
-  };
-*/
 
   return (
     <Grid
@@ -181,9 +117,6 @@ const MainWrapperComponent = () => {
         <Button variant="contained" onClick={addData}>
           Add new record
         </Button>
-        {/*<Button variant="contained" onClick={removeData}>
-          Remove first record
-        </Button>*/}
         <br />
 
         <Button variant="contained" onClick={() => setScrollingState(true)}>
@@ -194,14 +127,6 @@ const MainWrapperComponent = () => {
         </Button>
       </Grid>
       <Grid item xs={6} component="div">
-        {/*<DonationsListContext.Provider
-          value={{
-            donationsList,
-            // isScrolling,
-          }}
-        >
-          {children}
-        </DonationsListContext.Provider>*/}
         <ListWrapperComponent />
       </Grid>
     </Grid>

@@ -5,17 +5,7 @@ import { getDonationsListSelector } from '../../../store/reducers/donations.redu
 import DonationsRendererComponent from '../../helper-components/donations-renderer-component';
 
 const DonationsTemporaryComponent = () => {
-  // const { donationsList } = useContext(DonationsListContext);
   const donationsList = useSelector(getDonationsListSelector);
-
-  /*useEffect(() => {
-    // TOOD: find a better way not to get element by ID (refs ?)
-    const containerElement = document.getElementById(
-      'temp-donations-component',
-    );
-    const containerSizes = containerElement.getBoundingClientRect();
-    console.log('here', containerSizes);
-  });*/
 
   // Copy up to 20 records to this component.
   // This will ensure that this component will have enough records to show until DonationsComponent starts its animation again,

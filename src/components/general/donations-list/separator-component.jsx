@@ -1,15 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
+// If there is a need to somehow show some separator when donation  list is reached to latest record, this component can be used.
+// Otherwise, this will not be visible, I'm leaving it in any case.
 const SeparatorComponent = () => {
-  const componentRef = useRef();
-
-  useEffect(() => {
-    // console.log('here', componentRef.current.getBoundingClientRect());
-  });
-
-  return (
-    <div ref={componentRef} style={{ height: 1, border: '1px solid red' }} />
-  );
+  return <div />;
 };
 
 export default SeparatorComponent;
