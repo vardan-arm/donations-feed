@@ -2,41 +2,75 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setIsScrollingAction } from '../../../store/actions/scroll.actions';
+import {
+  setIsScrollingAction,
+  setScrollPaPointWhereScrollingStoppedAction,
+} from '../../../store/actions/scroll.actions';
+import { getIsTempDonationsContainerVisibleSelector } from '../../../store/reducers/donations.reducer';
 import { getIsScrollingSelector } from '../../../store/reducers/scroll.reducer';
 import ListRendererComponent from '../list-renderer-component';
 import DonationsTemporaryComponent from './donations-temporary-component';
 import SeparatorComponent from './separator-component';
 
-const useStyles = makeStyles({
-  root: {
-    overflow: 'none',
-  },
-  wrapperWithMovingContents: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-  },
-  moving: {
-    // animation: '$mover 5s infinite linear',
-    animation: '$mover 20s infinite linear', // TODO: make the speed to be pixels/ms, so that the speed will be the same despite records count
-  },
-  '@keyframes mover': {
-    '0%': {
-      top: props => props.topPosition || 0, // tODO: continue here, read top position from props
+const useStyles = makeStyles(() => {
+  // const x = window.topPosition;
+  // console.log({ x });
+
+  // const pointWhereScrollingStopped = useSelector(getScrollStoppingPointSelector);
+
+  return {
+    root: {
+      overflow: 'none',
     },
-    '100%': {
-      // Some big number to have kind of infinite motion; the motion will be restarted when SeparatorComponent reaches to the screen's top edge
-      // top: '-1000px',
-      top: '-10000px',
+    wrapperWithMovingContents: {
+      position: 'absolute',
+      left: 0,
+      // left: props => props.topPosition,
+      // top: 0,
+      // top: 0,
+      top: props => props.topPosition || 0,
     },
-  },
+    moving: {
+      // animation: '$mover 5s infinite linear',
+      animation: '$mover 100s infinite linear', // TODO: make the speed to be pixels/ms, so that the speed will be the same despite records count
+      // TODO (part 2): maybe { recordsCount * secondsToShowSingleRecord } ? e.g., donationsList.length * 2000 (2 seconds "for each record")
+    },
+
+    // '@keyframes mover': props =>  ({
+    //   ...moverFn(props)
+    // }),
+
+    '@keyframes mover': {
+      '0%': () => {
+        // console.log(',,,,,', x, props.topPosition);
+        // return { top: props.topPosition || 0 };
+        // return { left: props.topPosition || 0 };
+        // return { top: x || 0 };
+        return { top: 0 };
+      }, // tODO: continue here, read top position from props
+      '100%': {
+        // Some big number to have kind of infinite motion; the motion will be restarted when SeparatorComponent reaches to the screen's top edge
+        // top: '-1000px',
+        top: '-10000px',
+      },
+    },
+  };
 });
+
+/////////////////////////////////////////////////////
+//////////////// Styled components //////////////////
+/////////////////////////////////////////////////////
+/*const animation = (props) => {
+  return keyframes`
+    to {
+      color: ${props.theme.error};
+    }
+  `
+}*/
 
 // eslint-disable-next-line max-lines-per-function
 const DonationsComponent = props => {
   const classes = useStyles(props);
-  // console.log('props', props);
 
   const dispatch = useDispatch();
 
@@ -71,6 +105,7 @@ const DonationsComponent = props => {
         // console.log('STOP !!!!!!!!!!!!!');
         // Temporary component has reached to screen't top edge - restart the animation
         dispatch(setIsScrollingAction(false));
+        dispatch(setScrollPaPointWhereScrollingStoppedAction(0)); // TODO: fix hardcoding
 
         // Start the animation on the next tick, otherwise the UI becomes distorted for a while
         setTimeout(() => {
@@ -87,6 +122,10 @@ const DonationsComponent = props => {
   // const donationsList = useContext(DonationsListContext);
   // const donationsList = [];
 
+  const isTempDonationsContainerVisible = useSelector(
+    getIsTempDonationsContainerVisibleSelector,
+  );
+
   return (
     <div
       id="list-wrapper-component"
@@ -101,7 +140,7 @@ const DonationsComponent = props => {
           // itemsList={donationsList}
         />
       </div>
-      {isScrolling && (
+      {isTempDonationsContainerVisible && (
         <>
           <SeparatorComponent />
           <DonationsTemporaryComponent />

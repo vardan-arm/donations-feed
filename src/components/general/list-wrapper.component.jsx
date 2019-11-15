@@ -2,7 +2,9 @@
 
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
+import { getScrollStoppingPointSelector } from '../../store/reducers/scroll.reducer';
 import DonationsComponent from './donations-list/donations.component';
 // import { DonationsListContext } from './main-wrapper.component';
 import TopDonorsComponent from './top-donors.component';
@@ -19,6 +21,8 @@ const ListWrapperComponent = () => {
   const classes = useStyles();
   // const { isScrolling } = useContext(DonationsListContext);
 
+  const scrollStoppingPoint = useSelector(getScrollStoppingPointSelector);
+
   return (
     <div className={classes.root}>
       {/*<div
@@ -27,7 +31,7 @@ const ListWrapperComponent = () => {
         className={isScrolling ? classes.wrapperWithMovingContents : ''}
       >*/}
       <div>
-        <DonationsComponent topPosition={100} />
+        <DonationsComponent topPosition={scrollStoppingPoint} />
         <TopDonorsComponent />
       </div>
     </div>

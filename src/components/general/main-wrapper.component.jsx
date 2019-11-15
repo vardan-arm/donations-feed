@@ -5,9 +5,18 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import dummyTimeout from '../../helpers/dummy-timeout';
-import { addNewDonationAction } from '../../store/actions/donations.actions';
-import { setIsScrollingAction } from '../../store/actions/scroll.actions';
+import {
+  addNewDonationAction,
+  setIsTempDonationsContainerVisible,
+} from '../../store/actions/donations.actions';
+import {
+  setIsScrollingAction,
+  setScrollPaPointWhereScrollingStoppedAction,
+} from '../../store/actions/scroll.actions';
 import ListWrapperComponent from './list-wrapper.component';
+
+// TODO: store `topPosition` somewhere globally
+window.topPosition = 260;
 
 // eslint-disable-next-line max-lines-per-function
 const MainWrapperComponent = () => {
@@ -81,7 +90,22 @@ const MainWrapperComponent = () => {
     }*/
     if (typeof startScroll === 'boolean') {
       dispatch(setIsScrollingAction(startScroll));
+
+      // TODO: this is for testing purposes, rmove later
+      if (startScroll === false) {
+        // TODO: find a better way not to get element by ID (ref ?)
+        const containerElement = document.getElementById(
+          'list-wrapper-component',
+        );
+        const containerSizes = containerElement.getBoundingClientRect();
+        const containerTopPosition = containerSizes.top;
+
+        dispatch(
+          setScrollPaPointWhereScrollingStoppedAction(containerTopPosition - 6), // TODO: ensure this hardcoded number is correct on different screens
+        );
+      }
     } else {
+      // autostart scrolling if the added records are not shown anymore
       // TOOD: find a better way not to get element by ID (refs ?)
       const containerElement = document.getElementById(
         'list-wrapper-component',
@@ -96,7 +120,10 @@ const MainWrapperComponent = () => {
       if (containerPartThatIsBelowOfVisibleScreen > LIST_ITEM_HEIGHT) {
         // if (true) {
         // setIsScrolling(true);
+
+        // TOOD: in all places where we have more than one `dispatch` in components, use thunks
         dispatch(setIsScrollingAction(true));
+        dispatch(setIsTempDonationsContainerVisible(true));
 
         // containerElement.style.animation = 'mover 5s infinite linear';
 
@@ -157,6 +184,14 @@ const MainWrapperComponent = () => {
         {/*<Button variant="contained" onClick={removeData}>
           Remove first record
         </Button>*/}
+        <br />
+
+        <Button variant="contained" onClick={() => setScrollingState(true)}>
+          Start scrolling
+        </Button>
+        <Button variant="contained" onClick={() => setScrollingState(false)}>
+          Stop scrolling
+        </Button>
       </Grid>
       <Grid item xs={6} component="div">
         {/*<DonationsListContext.Provider
