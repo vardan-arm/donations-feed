@@ -35,9 +35,6 @@ data = {
 const HomePage = () => {
   return (
     <div>
-      {/*<MainWrapperComponent>
-        <ListWrapperComponent />
-      </MainWrapperComponent>*/}
       <MainWrapperComponent />
       <Link to="/admin">Admin</Link>
     </div>

@@ -18,12 +18,12 @@ const useStyles = makeStyles({
   },
   wrapperWithMovingContents: {
     position: 'absolute',
-    left: 0,
+    left: 1, // setting 1 (instead of 0) won't hide the contents' left borders
     top: props => props.topPosition || 0,
+    width: '100%',
   },
   moving: {
-    animation: '$mover 100s infinite linear', // TODO: make the speed to be pixels/ms, so that the speed will be the same despite records count
-    // TODO (part 2): maybe { recordsCount * secondsToShowSingleRecord } ? e.g., donationsList.length * 2000 (2 seconds "for each record")
+    animation: '$mover 150s infinite linear',
   },
   '@keyframes mover': {
     '0%': () => ({ top: 0 }), // Using arrow function here, otherwise, after restarting scroll, the container jumps to its very initial position
@@ -81,7 +81,8 @@ const DonationsComponent = props => {
         isScrolling ? classes.moving : ''
       }`}
     >
-      <div style={{ border: '1px solid blue' }}>
+      <div>
+        {/*<div style={{ border: '1px solid blue' }}>*/}
         <ListRendererComponent className={classes.root} />
       </div>
       {isTempDonationsContainerVisible && (

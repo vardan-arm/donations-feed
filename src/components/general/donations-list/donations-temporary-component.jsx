@@ -15,9 +15,15 @@ const DonationsTemporaryComponent = () => {
       id="temp-donations-component"
       style={{
         paddingTop: 10,
-        border: '1px solid red',
       }}
     >
+      {/*<div
+      id="temp-donations-component"
+      style={{
+        paddingTop: 10,
+        border: '1px solid red',
+      }}
+    >*/}
       <DonationsRendererComponent donationsList={donationsList.slice(0, 20)} />
     </div>
   );

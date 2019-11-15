@@ -1,7 +1,8 @@
+import { makeStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import dummyTimeout from '../../helpers/dummy-timeout';
 import {
@@ -12,21 +13,46 @@ import {
   setIsScrollingAction,
   setScrollPaPointWhereScrollingStoppedAction,
 } from '../../store/actions/scroll.actions';
+import { getDonationsListSelector } from '../../store/reducers/donations.reducer';
 import ListWrapperComponent from './list-wrapper.component';
 
-// TODO: store `topPosition` somewhere globally
-window.topPosition = 260;
+const useStyles = makeStyles({
+  root: {
+    backgroundColor: '#fff7e6',
+  },
+});
 
 // eslint-disable-next-line max-lines-per-function
 const MainWrapperComponent = () => {
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   useEffect(() => {
     dummyTimeout(1000).then(() => {
       const donations = [
-        { id: 1, title: 'donator 1', amount: '1500', currency: '$' },
-        { id: 2, title: 'donator 2', amount: '800', currency: '$' },
-        // { id: 3, title: 'donator 3', amount: '400000', currency: 'AMD' },
+        {
+          id: 1,
+          title: 'Donor 1',
+          amount: '1500',
+          currency: '$',
+          description: 'Good luck, people!!!',
+        },
+        {
+          id: 2,
+          title: 'Anonymous',
+          amount: '800000',
+          currency: 'AMD',
+          description: '',
+        },
+        {
+          id: 3,
+          title:
+            'Donor 3 with very unusual long first name and even longer last name',
+          amount: '400000',
+          currency: 'AMD',
+          description:
+            'some long long long long long long long long long long long long long long long long long long long long description',
+        },
         // { id: 4, title: 'donator 4', amount: '1500', currency: '$' },
         // { id: 5, title: 'donator 5', amount: '800', currency: '$' },
         // { id: 6, title: 'donator 6', amount: '400000', currency: 'AMD' },
@@ -57,52 +83,64 @@ const MainWrapperComponent = () => {
     });
   }, [dispatch]);
 
-  const LIST_ITEM_HEIGHT = 80; // TODO: perhaps this will be calculated, do that later
+  const donationsList = useSelector(getDonationsListSelector);
 
-  const setScrollingState = startScroll => {
-    // TODO: find a better way not to get element by ID (ref ?)
-    const containerElement = document.getElementById('list-wrapper-component');
-    const containerSizes = containerElement.getBoundingClientRect();
+  const setScrollingState = useCallback(
+    startScroll => {
+      // TODO: find a better way not to get element by ID (ref ?)
+      const containerElement = document.getElementById(
+        'list-wrapper-component',
+      );
+      const containerSizes = containerElement.getBoundingClientRect();
 
-    if (typeof startScroll === 'boolean') {
-      dispatch(setIsScrollingAction(startScroll));
+      if (typeof startScroll === 'boolean') {
+        dispatch(setIsScrollingAction(startScroll));
 
-      // TODO: this is for testing purposes, remove later
-      if (startScroll === false) {
-        const containerTopPosition = containerSizes.top;
+        // TODO: this is for testing purposes, remove later
+        if (startScroll === false) {
+          const containerTopPosition = containerSizes.top;
 
-        dispatch(
-          setScrollPaPointWhereScrollingStoppedAction(containerTopPosition - 6), // TODO: ensure this hardcoded number is correct on different screens
-        );
+          dispatch(
+            // setScrollPaPointWhereScrollingStoppedAction(containerTopPosition - 6), // TODO: ensure this hardcoded number is correct on different screens
+            setScrollPaPointWhereScrollingStoppedAction(
+              containerTopPosition - 8,
+            ), // TODO: ensure this hardcoded number is correct on different screens
+          );
+        }
+      } else {
+        // Automatically start scrolling if the newly added records are not fully shown anymore
+        const containerBottomPosition =
+          containerSizes.top + containerSizes.height;
+
+        if (containerBottomPosition > document.body.scrollHeight) {
+          // TODO: in all places where we have more than one `dispatch` in components, use thunks
+          dispatch(setIsScrollingAction(true));
+          dispatch(setIsTempDonationsContainerVisible(true));
+        }
       }
-    } else {
-      // Automatically start scrolling if the newly added records are not shown anymore
-      const containerBottomPosition =
-        containerSizes.top + containerSizes.height;
-      const containerPartThatIsBelowOfVisibleScreen =
-        containerBottomPosition - document.body.scrollHeight;
-
-      if (containerPartThatIsBelowOfVisibleScreen > LIST_ITEM_HEIGHT) {
-        // TODO: in all places where we have more than one `dispatch` in components, use thunks
-        dispatch(setIsScrollingAction(true));
-        dispatch(setIsTempDonationsContainerVisible(true));
-      }
-    }
-  };
+    },
+    [dispatch],
+  );
 
   const addData = () => {
-    const nextItemId = (Math.random() * 1000).toFixed();
+    const nextItemId = (Math.random() * 1000).toFixed() - 0;
 
     dispatch(
       addNewDonationAction({
         id: nextItemId,
-        title: `donator ${nextItemId}`,
+        title: `Donor ${nextItemId}`,
         amount: (Math.random() * 1000).toFixed(),
         currency: '$',
+        description: '',
       }),
     );
-    setScrollingState();
   };
+
+  // Donations list is used as a dependency in useEffect, where the scrolling setter function is called.
+  // The useEffect will ensure that the newly added record is also taken into account
+  useEffect(() => {
+    setScrollingState();
+  }, [donationsList, setScrollingState]);
 
   return (
     <Grid
@@ -111,6 +149,7 @@ const MainWrapperComponent = () => {
       justify="center"
       alignItems="center"
       component="div"
+      className={classes.root}
     >
       <Grid item xs={6} component="div">
         <div>Left part (logos)</div>
