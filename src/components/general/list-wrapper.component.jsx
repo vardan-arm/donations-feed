@@ -1,9 +1,9 @@
-import '../../styles/custom-styles.css';
-
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-import DonationsComponent from './donations.component';
+import { getScrollStoppingPointSelector } from '../../store/reducers/scroll.reducer';
+import DonationsComponent from './donations-list/donations.component';
 import TopDonorsComponent from './top-donors.component';
 
 const useStyles = makeStyles({
@@ -12,59 +12,16 @@ const useStyles = makeStyles({
     height: 'calc(100vh - 55px)',
     overflow: 'hidden',
   },
-  wrapperWithMovingContents: {
-    // position: 'absolute',
-    /*'-webkitAnimation': 'mover 1s infinite  alternate',
-    animation: 'mover 1s infinite  alternate',*/
-    /*'::@-webkit-keyframes mover': `
-      {0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }`,
-
-    '::@keyframes mover': `
-      {0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }`,*/
-    /*'@-webkit-keyframes mover': {
-      '0%': {
-        transform: 'translateY(0)',
-      },
-      '100%': {
-        transform: 'translateY(-10px)',
-      },
-    },
-    '@keyframes mover': {
-      '0%': {
-        transform: 'translateY(0)',
-      },
-      '100%': {
-        transform: 'translateY(-10px)',
-      },
-    },*/
-    /*'@-webkit-keyframes mover': `{
-      '0%': {
-        transform: 'translateY(0)',
-      },
-      '100%': {
-        transform: 'translateY(-10px)',
-      },
-    }`,*/
-    /*'::@keyframes mover': {
-      '0%': {
-        transform: 'translateY(0)',
-      },
-      '100%': {
-        transform: 'translateY(-10px)',
-      },
-    },*/
-  },
 });
 
 const ListWrapperComponent = () => {
   const classes = useStyles();
+  const scrollStoppingPoint = useSelector(getScrollStoppingPointSelector);
 
   return (
     <div className={classes.root}>
-      <div className="wrapper-with-moving-contents">
-        <DonationsComponent />
+      <div>
+        <DonationsComponent topPosition={scrollStoppingPoint} />
         <TopDonorsComponent />
       </div>
     </div>

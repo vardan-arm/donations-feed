@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { DonationsListContext } from './main-wrapper.component';
+import { getDonationsListSelector } from '../../store/reducers/donations.reducer';
 
 const TopDonorsComponent = () => {
-  const donationsList = useContext(DonationsListContext);
+  const donationsList = useSelector(getDonationsListSelector);
 
   if (donationsList.length > 0) {
     return null;
