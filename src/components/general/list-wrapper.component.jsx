@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { getScrollStoppingPointSelector } from '../../store/reducers/scroll.reducer';
 import DonationPopupComponent from './donation-popup.component';
 import DonationsComponent from './donations-list/donations.component';
-import TopDonorsComponent from './top-donors.component';
+import TopDonorsComponent from './top-donors-list/top-donors.component';
 
 const useStyles = makeStyles({
   root: {

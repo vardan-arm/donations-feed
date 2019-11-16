@@ -16,7 +16,6 @@ const initialState = {
 };
 
 const donationsReducer = createReducer(initialState, {
-  // [setDonationsAction]: (state, action) => [...state, ...action.payload],
   [addNewDonationAction]: (state, action) => ({
     ...state,
     data: [
