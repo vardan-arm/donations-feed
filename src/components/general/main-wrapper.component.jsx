@@ -8,6 +8,7 @@ import dummyTimeout from '../../helpers/dummy-timeout';
 import {
   addNewDonationAction,
   setIsTempDonationsContainerVisible,
+  setNewDonationPopupDuration,
 } from '../../store/actions/donations.actions';
 import {
   setIsScrollingAction,
@@ -163,6 +164,16 @@ const MainWrapperComponent = () => {
         </Button>
         <Button variant="contained" onClick={() => setScrollingState(false)}>
           Stop scrolling
+        </Button>
+        <br />
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            dispatch(setNewDonationPopupDuration(5)); // TODO: remove this hardcoding when we get duration from admin pnael
+          }}
+        >
+          Set new donation popup duration
         </Button>
       </Grid>
       <Grid item xs={6} component="div">

@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
+import formatDonationAmount from '../../../helpers/format-donation-amount';
+import { donationAmountStyle } from '../../../shared/styles';
 import richManImage from '../../../static/rich-man.svg';
 import { setDonationItemComponentHeight } from '../../../store/actions/meta.actions';
 
@@ -20,20 +22,16 @@ const useStyles = makeStyles(theme => ({
     fontSize: 24,
     paddingBottom: 8,
   },
-  donationAmount: {
-    fontSize: 20,
-    border: '1px solid orange',
-    borderRadius: 16,
-    // width: '150px',
-    minWidth: 'fit-content',
-    padding: '8px 24px',
-    backgroundColor: 'darkcyan',
-    color: 'white',
-  },
+  donationAmount: donationAmountStyle,
   description: {
     paddingLeft: 8,
     fontSize: '18px',
     lineHeight: '18px',
+  },
+  donorLogo: {
+    backgroundImage: `url(${richManImage})`,
+    width: 48,
+    height: 48,
   },
 }));
 
@@ -61,11 +59,11 @@ const DonationItemComponent = ({ item, index }) => {
         </Grid>
         <Grid item xs={9} component="div">
           <div className={classes.donorTitle}>{title}</div>
-          <Grid container component="div">
+          <Grid container component="div" alignItems="center">
             <Grid item xs={4} component="div">
-              <div className={classes.donationAmount}>{`${currency} ${(
-                amount - 0
-              ).toLocaleString('en-US')}`}</div>
+              <div className={classes.donationAmount}>
+                {formatDonationAmount({ currency, amount })}
+              </div>
             </Grid>
             <Grid item xs={8} component="div">
               <div className={classes.description}>{description}</div>
@@ -73,13 +71,7 @@ const DonationItemComponent = ({ item, index }) => {
           </Grid>
         </Grid>
         <Grid item xs={2} component="div">
-          <div
-            style={{
-              backgroundImage: `url(${richManImage})`,
-              width: 48,
-              height: 48,
-            }}
-          />
+          <div className={classes.donorLogo} />
         </Grid>
       </Grid>
     </Paper>

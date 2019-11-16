@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { getScrollStoppingPointSelector } from '../../store/reducers/scroll.reducer';
+import DonationPopupComponent from './donation-popup.component';
 import DonationsComponent from './donations-list/donations.component';
 import TopDonorsComponent from './top-donors.component';
 
@@ -21,6 +22,7 @@ const ListWrapperComponent = () => {
   return (
     <div className={classes.root}>
       <div>
+        <DonationPopupComponent />
         <DonationsComponent topPosition={scrollStoppingPoint} />
         <TopDonorsComponent />
       </div>
