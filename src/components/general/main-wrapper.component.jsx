@@ -12,8 +12,8 @@ import {
 } from '../../store/actions/donations.actions';
 import {
   setIsScrollingAction,
+  setPointWhereScrollingStoppedAction,
   setScrollHasStartedAtLeastOnce,
-  setScrollPaPointWhereScrollingStoppedAction,
 } from '../../store/actions/scroll.actions';
 import { setTopDonorsAction } from '../../store/actions/top-donors.action';
 import { getDonationsListSelector } from '../../store/reducers/donations.reducer';
@@ -103,9 +103,7 @@ const MainWrapperComponent = () => {
 
           dispatch(
             // setScrollPaPointWhereScrollingStoppedAction(containerTopPosition - 6), // TODO: ensure this hardcoded number is correct on different screens
-            setScrollPaPointWhereScrollingStoppedAction(
-              containerTopPosition - 8,
-            ), // TODO: ensure this hardcoded number is correct on different screens
+            setPointWhereScrollingStoppedAction(containerTopPosition - 8), // TODO: ensure this hardcoded number is correct on different screens
           );
         }
       } else {
@@ -144,7 +142,7 @@ const MainWrapperComponent = () => {
     );
 
     // Set top position for the first donation to be on top
-    dispatch(setScrollPaPointWhereScrollingStoppedAction(0));
+    dispatch(setPointWhereScrollingStoppedAction(0));
   };
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   setIsScrollingAction,
-  setScrollPaPointWhereScrollingStoppedAction,
+  setPointWhereScrollingStoppedAction,
 } from '../../../store/actions/scroll.actions';
 import { getIsTempDonationsContainerVisibleSelector } from '../../../store/reducers/donations.reducer';
 import { getIsScrollingSelector } from '../../../store/reducers/scroll.reducer';
@@ -56,7 +56,7 @@ const DonationsComponent = props => {
       if (temporaryDonationsComponentTopPosition <= 0) {
         // Temporary component has reached to screen't top edge - restart the animation
         dispatch(setIsScrollingAction(false));
-        dispatch(setScrollPaPointWhereScrollingStoppedAction(0));
+        dispatch(setPointWhereScrollingStoppedAction(0));
 
         // Start the animation on the next tick, otherwise the UI becomes distorted for a while
         setTimeout(() => {
