@@ -129,6 +129,8 @@ const MainWrapperComponent = () => {
     if (donationsList.length === 0) {
       setScrollingState(false);
       dispatch(setScrollHasStartedAtLeastOnce(null));
+      // Set top position for the first donation to be on top
+      dispatch(setPointWhereScrollingStoppedAction(0));
     }
 
     dispatch(
@@ -140,9 +142,6 @@ const MainWrapperComponent = () => {
         description: '',
       }),
     );
-
-    // Set top position for the first donation to be on top
-    dispatch(setPointWhereScrollingStoppedAction(0));
   };
 
   useEffect(() => {
