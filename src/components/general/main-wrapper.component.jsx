@@ -12,6 +12,7 @@ import {
 } from '../../store/actions/donations.actions';
 import {
   setIsScrollingAction,
+  setScrollHasStartedAtLeastOnce,
   setScrollPaPointWhereScrollingStoppedAction,
 } from '../../store/actions/scroll.actions';
 import { setTopDonorsAction } from '../../store/actions/top-donors.action';
@@ -129,6 +130,7 @@ const MainWrapperComponent = () => {
     // If this is very first donation, stop the scroll (because if top donors list is large, it might have started scrolling)
     if (donationsList.length === 0) {
       setScrollingState(false);
+      dispatch(setScrollHasStartedAtLeastOnce(null));
     }
 
     dispatch(
@@ -147,8 +149,7 @@ const MainWrapperComponent = () => {
 
   useEffect(() => {
     dummyTimeout(3000).then(() => {
-      // dummyTimeout(93000).then(() => {
-      const donations = [
+      /*const donations = [
         {
           id: 1,
           title: 'Donor 1',
@@ -174,51 +175,18 @@ const MainWrapperComponent = () => {
         },
       ];
       // TODO: this loop is only for development purposes and later it will be deleted, as in reality there will be no existing donations initially
-      donations.forEach(donationItem =>
+       donations.forEach(donationItem =>
         dispatch(addNewDonationAction(donationItem)),
-      );
+      );*/
       // TODO: this loop is only for development purposes and later it will be deleted, as in reality there will be no existing donations initially
       // donations.forEach(donationItem => addData());
     });
   }, [dispatch]);
 
-  /*const addData = () => {
-    // TODO: get ID from backend
-    const nextItemId = (Math.random() * 1000).toFixed() - 0;
-
-    // If this is very first donation, stop the scroll (because if top donors list is large, it might have started scrolling)
-    if (donationsList.length === 0) {
-      setScrollingState(false);
-    }
-
-    dispatch(
-      addNewDonationAction({
-        id: nextItemId,
-        title: `Donor ${nextItemId}`,
-        amount: (Math.random() * 1000).toFixed(),
-        currency: '$',
-        description: '',
-      }),
-    );
-
-    // TODO: this code is duplicate from above part, so make them to be unique
-    const containerElement = document.getElementById(
-      'donations-component',
-    );
-    const containerSizes = containerElement.getBoundingClientRect();
-    const containerTopPosition = containerSizes.top;
-    dispatch(
-      setScrollPaPointWhereScrollingStoppedAction(
-        0,
-      ), // TODO: ensure this hardcoded number is correct on different screens
-    );
-  };*/
-
   // Donations list is used as a dependency in useEffect, where the scrolling setter function is called.
   // The useEffect will ensure that the newly added record is also taken into account
   useEffect(() => {
     setScrollingState();
-    // }, [donationsList, setScrollingState]);
   }, [donationsList, topDonorsList, setScrollingState]);
 
   return (

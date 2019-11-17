@@ -2,19 +2,24 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { getDonationsListSelector } from '../../../store/reducers/donations.reducer';
-import { getIsScrollingSelector } from '../../../store/reducers/scroll.reducer';
+import {
+  getIsScrollingSelector,
+  getScrollHasStartedAtLeastOnce,
+} from '../../../store/reducers/scroll.reducer';
 import DonationsRendererComponent from '../../helper-components/donations-renderer-component';
 import TopDonorsRendererComponent from '../top-donors-list/top-donors-renderer.component';
 
 const DonationsTemporaryComponent = () => {
   const donationsList = useSelector(getDonationsListSelector);
-  // const topDonorsList = useSelector(getTopDonorsListSelector);
-
-  // const items = donationsList.length > 0 ? donationsList : topDonorsList;
   const isScrolling = useSelector(getIsScrollingSelector);
 
+  const scrollHasStartedAtLeastOnce = useSelector(
+    getScrollHasStartedAtLeastOnce,
+  );
+  const showComponent = isScrolling || scrollHasStartedAtLeastOnce;
+
   // Don't render if there is no scroll yet
-  if (!isScrolling) {
+  if (!showComponent) {
     return null;
   }
 
@@ -28,7 +33,6 @@ const DonationsTemporaryComponent = () => {
         paddingTop: 10,
       }}
     >
-      {/*<DonationsRendererComponent donationsList={donationsList.slice(0, 20)} />*/}
       {donationsList.length > 0 ? (
         <DonationsRendererComponent renderPartially />
       ) : (
