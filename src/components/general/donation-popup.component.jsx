@@ -29,18 +29,23 @@ const useStyles = makeStyles(theme => ({
     // minWidth: 800
   },
   newDonationTitle: {
-    paddingBottom: 16,
+    paddingBottom: theme.spacing(2),
   },
   donorName: {
     fontSize: 28,
-    margin: theme.spacing(3),
+    margin: theme.spacing(2, 3),
+  },
+  description: {
+    fontSize: 20,
+    marginBottom: theme.spacing(3),
   },
   donationAmount: {
     ...donationAmountStyle,
-    marginBottom: 20,
+    marginBottom: theme.spacing(3),
   },
   donorLogo: {
     backgroundImage: `url(${richManImage})`,
+    marginRight: theme.spacing(2),
     width: 48,
     height: 48,
   },
@@ -84,6 +89,7 @@ const DonationPopupComponent = () => {
             dispatch(setIsDonationShown(firstNotShownDonationItem.id));
           }, 200);
         }, newDonationPopupDuration);
+        // }, newDonationPopupDuration + 400000);
       }, TRANSITION_TIMEOUT + 500); // give a time to complete the previous transition (which closes popup) and then open the next popup
     }
 
@@ -137,6 +143,9 @@ const DonationPopupComponent = () => {
                   <Grid item component="div">
                     <div className={classes.donorName}>
                       {firstNotShownDonationItem.title}
+                    </div>
+                    <div className={classes.description}>
+                      {firstNotShownDonationItem.description}
                     </div>
                   </Grid>
                 </Grid>

@@ -76,12 +76,12 @@ const DonationsComponent = props => {
 
   return (
     <div
-      id="list-wrapper-component"
+      id="donations-component"
       className={`${classes.wrapperWithMovingContents} ${
         isScrolling ? classes.moving : ''
       }`}
     >
-      <div>
+      <div style={{ paddingBottom: 10 }}>
         {/*<div style={{ border: '1px solid blue' }}>*/}
         <ListRendererComponent className={classes.root} />
       </div>
