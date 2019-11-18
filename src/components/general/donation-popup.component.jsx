@@ -3,11 +3,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Typography from '@material-ui/core/Typography';
-import Zoom from '@material-ui/core/Zoom';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import formatDonationAmount from '../../helpers/format-donation-amount';
+import { POPUP_TRANSITION_TIMEOUT } from '../../shared/constants';
 import { donationAmountStyle } from '../../shared/styles';
 import richManImage from '../../static/rich-man.svg';
 import { setIsDonationShown } from '../../store/actions/donations.actions';
@@ -15,13 +15,7 @@ import {
   getDonationsThatAreNotYetShown,
   getNewDonationPopupDurationSelector,
 } from '../../store/reducers/donations.reducer';
-
-const TRANSITION_TIMEOUT = 300;
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Zoom {...props} timeout={TRANSITION_TIMEOUT} ref={ref} />;
-});
+import Transition from '../helper-components/transition.component';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -81,7 +75,7 @@ const DonationPopupComponent = () => {
         setIsVisible(true);
 
         hidePopupTimeoutId.current = setTimeout(() => {
-          setIsVisible(false);
+          handleClose();
 
           // Dispatch to update `isShown`
           // Using setTimeout here again, otherwise, when closing, the next (if any) donation's content becomes visible...
@@ -89,8 +83,7 @@ const DonationPopupComponent = () => {
             dispatch(setIsDonationShown(firstNotShownDonationItem.id));
           }, 200);
         }, newDonationPopupDuration);
-        // }, newDonationPopupDuration + 400000);
-      }, TRANSITION_TIMEOUT + 500); // give a time to complete the previous transition (which closes popup) and then open the next popup
+      }, POPUP_TRANSITION_TIMEOUT + 500); // give a time to complete the previous transition (which closes popup) and then open the next popup
     }
 
     return () => {

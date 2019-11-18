@@ -8,7 +8,10 @@ import dummyTimeout from '../../helpers/dummy-timeout';
 import {
   addNewDonationAction,
   setIsTempDonationsContainerVisible,
+  setIsTotalDonationsPopupVisibleAction,
   setNewDonationPopupDuration,
+  setTotalDonationsAction,
+  setTotalSumPopupDuration,
 } from '../../store/actions/donations.actions';
 import {
   setIsScrollingAction,
@@ -17,6 +20,7 @@ import {
 } from '../../store/actions/scroll.actions';
 import { setTopDonorsAction } from '../../store/actions/top-donors.action';
 import { getDonationsListSelector } from '../../store/reducers/donations.reducer';
+import { getIsScrollingSelector } from '../../store/reducers/scroll.reducer';
 import { getTopDonorsListSelector } from '../../store/reducers/top-donors.reducer';
 import ListWrapperComponent from './list-wrapper.component';
 
@@ -186,6 +190,24 @@ const MainWrapperComponent = () => {
     setScrollingState();
   }, [donationsList, topDonorsList, setScrollingState]);
 
+  // TODO: this value will be received from backend
+  const totalDonations = [
+    {
+      currency: '$',
+      amount: 1000,
+    },
+    {
+      currency: 'AUD',
+      amount: 100000,
+    },
+    {
+      currency: 'CHF',
+      amount: 2500,
+    },
+  ];
+
+  const isScrolling = useSelector(getIsScrollingSelector);
+
   return (
     <Grid
       container
@@ -200,23 +222,46 @@ const MainWrapperComponent = () => {
         <Button variant="contained" onClick={addData}>
           Add new record
         </Button>
+
+        <Button
+          variant="contained"
+          onClick={() => {
+            dispatch(setNewDonationPopupDuration(5 * 1000)); // TODO: remove this hardcoding when we get duration from admin panel
+          }}
+        >
+          Set new donation popup duration (5 sec)
+        </Button>
+        <br />
         <br />
 
-        <Button variant="contained" onClick={() => setScrollingState(true)}>
-          Start scrolling
-        </Button>
-        <Button variant="contained" onClick={() => setScrollingState(false)}>
-          Stop scrolling
-        </Button>
+        {isScrolling ? (
+          <Button variant="contained" onClick={() => setScrollingState(false)}>
+            Stop scrolling
+          </Button>
+        ) : (
+          <Button variant="contained" onClick={() => setScrollingState(true)}>
+            Start scrolling
+          </Button>
+        )}
+        <br />
         <br />
 
         <Button
           variant="contained"
           onClick={() => {
-            dispatch(setNewDonationPopupDuration(5)); // TODO: remove this hardcoding when we get duration from admin pnael
+            dispatch(setTotalDonationsAction(totalDonations));
+            dispatch(setIsTotalDonationsPopupVisibleAction(true));
           }}
         >
-          Set new donation popup duration
+          Show total donations popup
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            dispatch(setTotalSumPopupDuration(7 * 1000)); // TODO: remove this hardcoding when we get duration from admin panel
+          }}
+        >
+          Set Total Sum Popup duration (7 seconds)
         </Button>
       </Grid>
       <Grid item xs={6} component="div">

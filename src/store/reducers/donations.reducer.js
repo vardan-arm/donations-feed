@@ -4,15 +4,19 @@ import {
   addNewDonationAction,
   setIsDonationShown,
   setIsTempDonationsContainerVisible,
+  setIsTotalDonationsPopupVisibleAction,
   setNewDonationPopupDuration,
+  setTotalDonationsAction,
+  setTotalSumPopupDuration,
 } from '../actions/donations.actions';
 
 const initialState = {
   data: [],
   isTempDonationsContainerVisible: false,
-  // newDonationPopupDuration: 500, // milliseconds
-  newDonationPopupDuration: 3000, // milliseconds
+  newDonationPopupDuration: 1000, // milliseconds
   totalSumPopupDuration: 1000, // milliseconds
+  isTotalDonationsPopupVisible: false,
+  totalDonations: null,
 };
 
 const donationsReducer = createReducer(initialState, {
@@ -32,7 +36,11 @@ const donationsReducer = createReducer(initialState, {
   }),
   [setNewDonationPopupDuration]: (state, action) => ({
     ...state,
-    newDonationPopupDuration: action.payload * 1000, // convert seconds to milliseconds
+    newDonationPopupDuration: action.payload, // convert seconds to milliseconds
+  }),
+  [setTotalSumPopupDuration]: (state, action) => ({
+    ...state,
+    totalSumPopupDuration: action.payload,
   }),
   [setIsDonationShown]: (state, action) => {
     const donationIndexToUpdate = state.data.findIndex(
@@ -47,6 +55,14 @@ const donationsReducer = createReducer(initialState, {
       ],
     };
   },
+  [setIsTotalDonationsPopupVisibleAction]: (state, action) => ({
+    ...state,
+    isTotalDonationsPopupVisible: action.payload,
+  }),
+  [setTotalDonationsAction]: (state, action) => ({
+    ...state,
+    totalDonations: action.payload,
+  }),
 });
 
 export default donationsReducer;
@@ -60,3 +76,9 @@ export const getIsTempDonationsContainerVisibleSelector = state =>
   state.donations.isTempDonationsContainerVisible;
 export const getNewDonationPopupDurationSelector = state =>
   state.donations.newDonationPopupDuration;
+export const getTotalSumPopupDuration = state =>
+  state.donations.totalSumPopupDuration;
+export const getIsTotalDonationsPopupVisible = state =>
+  state.donations.isTotalDonationsPopupVisible;
+export const getTotalDonationsSelector = state =>
+  state.donations.totalDonations;
