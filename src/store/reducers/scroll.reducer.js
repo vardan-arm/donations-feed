@@ -2,11 +2,13 @@ import { createReducer } from 'redux-starter-kit';
 
 import {
   setIsScrollingAction,
-  setScrollPaPointWhereScrollingStoppedAction,
+  setPointWhereScrollingStoppedAction,
+  setScrollHasStartedAtLeastOnce,
 } from '../actions/scroll.actions';
 
 const initialState = {
   isScrolling: false,
+  scrollHasStartedAtLeastOnce: false,
   stoppingPoint: null,
 };
 
@@ -14,8 +16,13 @@ const scrollReducer = createReducer(initialState, {
   [setIsScrollingAction]: (state, action) => ({
     ...state,
     isScrolling: action.payload,
+    scrollHasStartedAtLeastOnce: true,
   }),
-  [setScrollPaPointWhereScrollingStoppedAction]: (state, action) => ({
+  [setScrollHasStartedAtLeastOnce]: (state, action) => ({
+    ...state,
+    scrollHasStartedAtLeastOnce: action.payload,
+  }),
+  [setPointWhereScrollingStoppedAction]: (state, action) => ({
     ...state,
     stoppingPoint: action.payload,
   }),
@@ -28,5 +35,7 @@ export default scrollReducer;
   return state.scroll.isScrolling;
 };*/
 export const getIsScrollingSelector = state => state.scroll.isScrolling;
+export const getScrollHasStartedAtLeastOnce = state =>
+  state.scroll.scrollHasStartedAtLeastOnce;
 export const getScrollStoppingPointSelector = state =>
   state.scroll.stoppingPoint;

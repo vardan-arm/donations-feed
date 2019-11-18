@@ -15,4 +15,4 @@ const topDonorsReducer = createReducer(initialState, {
 
 export default topDonorsReducer;
 
-export const getTopDonorsSelector = state => state.topDonors.data;
+export const getTopDonorsListSelector = state => state.topDonors.data;
