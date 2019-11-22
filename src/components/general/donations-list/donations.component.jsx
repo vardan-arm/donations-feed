@@ -23,13 +23,15 @@ const useStyles = makeStyles({
     width: '100%',
   },
   moving: {
-    animation: '$mover 150s infinite linear',
+    animation: '$mover 1500s infinite linear',
   },
   '@keyframes mover': {
     '0%': () => ({ top: 0 }), // Using arrow function here, otherwise, after restarting scroll, the container jumps to its very initial position
     '100%': {
-      // Some big number to have kind of infinite motion; the motion will be restarted when SeparatorComponent reaches to the screen's top edge
-      top: '-10000px',
+      // Some big number to have kind of infinite motion.
+      // The motion will be restarted when SeparatorComponent reaches to the screen's top edge.
+      // So that, the component's `top` will never reach to the value below.
+      top: '-100000px',
     },
   },
 });
