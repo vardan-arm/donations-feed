@@ -6,7 +6,7 @@ import HomePage from '../pages/home.page';
 
 const AppComponent = () => {
   return (
-    <Router>
+    <Router basepath="/">
       <HomePage path="/" />
       <AdminPage path="admin" />
     </Router>

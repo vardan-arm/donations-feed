@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "description": "React app for posting donation info and showing all donations as a news feed",
   "main": "index.js",
+  "homepage": "http://localhost/donations-feed/",
   "scripts": {
     "start": "parcel public/index.html",
     "start-mock-server": "json-server --watch db.json",
-    "build": "parcel build public/index.html",
+    "build": "parcel build public/index.html --no-cache  --public-url \".\"",
     "run-built-package": "serve ./dist",
     "prettify": "prettier --write \"src/**/*.js[x]\"",
     "lint-fix": "eslint --fix src/**/*.js[x]",
